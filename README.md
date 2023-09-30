@@ -2,8 +2,11 @@
 Foro para compartir propuestas del MID
 
 Este proyecto usa la misma estructura de código que el de StudyBud.
-Referencia: 
+
+Referencia:
+
 [Video de YouTube](https://www.youtube.com/watch?v=PtQiiknWUcI&t=10322s)
+
 [Repositorio GitHub](https://github.com/divanov11/StudyBud/)
 
 El repositorio fue transformado para ser del MID y estar en español y adaptado para funcionar en una página de fly.io, conectado a una base de datos PG de fly y a un Google Storage en Google Cloud.
