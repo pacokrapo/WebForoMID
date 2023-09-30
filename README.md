@@ -17,4 +17,5 @@ Las imágenes de los avatares están conectados a Google Storage para que no se 
 Este repositorio no incluye las credenciales de google y fly-pg.
 
 El resultado final puede verse en: [Foro MID](https://foromid.fly.dev/)
+
 ![El foro del MID](https://github.com/pacokrapo/web-foromid-repo/blob/main/media/ForoMID.png)
