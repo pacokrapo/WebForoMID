@@ -3,7 +3,7 @@ Foro para compartir propuestas del MID
 
 Este proyecto usa la misma estructura de código que el de StudyBud.
 
-Referencias:
+Referencia:
 
 [Video de YouTube](https://www.youtube.com/watch?v=PtQiiknWUcI&t=10322s)
 
