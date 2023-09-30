@@ -3,9 +3,11 @@ Foro para compartir propuestas del MID
 
 Este proyecto usa la misma estructura de código que el de StudyBud.
 
-Referencia:
+Referencias:
 
 [Video de YouTube](https://www.youtube.com/watch?v=PtQiiknWUcI&t=10322s)
+
+/
 
 [Repositorio GitHub](https://github.com/divanov11/StudyBud/)
 
