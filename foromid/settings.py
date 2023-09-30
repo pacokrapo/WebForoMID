@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -24,9 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3#av2c6nptlbbb6^muqkchu&fe3wv&n$t2+g$v!ir-f5%doocb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = ["*.fly.dev"]
 
 
 # Application definition
@@ -49,15 +51,17 @@ AUTH_USER_MODEL = 'base.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     "corsheaders.middleware.CorsMiddleware",
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'foromid.urls'
@@ -82,15 +86,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foromid.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 
@@ -116,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
 
@@ -132,24 +129,42 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/images/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-ALLOWED_HOSTS = ['foromid.fly.dev', "127.0.0.1"]
+MEDIA_URL = 'https://storage.googleapis.com/web-foromid/'
 
-MEDIA_ROOT = BASE_DIR / 'static/images'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-#STATIC_ROOT =
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#CORS and backend:
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+CORS_ALLOW_CREDENTIALS = True
+
+AUTHENTICATION_BACKENDS = (
+    'base.backend.MyUserBackend',
+)
+
+#Google cloud credentials:
+
+GS_CREDENTIALS_PATH = os.path.join(BASE_DIR, 'credentials', 'glowing-patrol-400520-498955939831.json')  # Utiliza la variable de entorno
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GS_CREDENTIALS_PATH
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'web-foromid'  # Reemplaza con tu nombre de bucket
+GS_PROJECT_ID = 'emprender-corrientes'  # Reemplaza con tu Project ID
+
+
+
+
+

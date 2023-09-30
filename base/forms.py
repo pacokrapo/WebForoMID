@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Room, User
 
+#User = get_user_model()
 
 class MyUserCreationForm(UserCreationForm):
     class Meta:
@@ -14,6 +15,7 @@ class RoomForm(ModelForm):
         model = Room
         fields = '__all__'
         exclude = ['host', 'participants']
+
 
 
 class UserForm(ModelForm):

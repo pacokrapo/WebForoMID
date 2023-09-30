@@ -11,7 +11,7 @@
                 </div>
                 <p>
                     @{{message.user.username}}
-                    <span>{{message.created|timesince}} ago</span>
+                    <span>Hace {{message.created|timesince}}</span>
                 </p>
             </a>
 
@@ -30,7 +30,7 @@
 
         </div>
         <div class="activities__boxContent">
-            <p>Comentó en la sala “<a href="{% url 'room' message.room.id %}">{{message.room}}</a>”</p>
+            <p>“Comentó en la sala<a href="{% url 'room' message.room.id %}">{{message.room}}</a>”</p>
             <div class="activities__boxRoomContent">{{message.body}}</div>
         </div>
     </div>

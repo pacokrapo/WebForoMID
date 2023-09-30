@@ -1,16 +1,22 @@
-# fly.toml app configuration file generated for foromid on 2023-09-27T21:56:29-03:00
+# fly.toml app configuration file generated for foromid on 2023-09-29T12:03:13-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = "foromid"
-primary_region = "scl"
+primary_region = "eze"
 console_command = "/code/manage.py shell"
 
 [build]
+  args = { DATABASE_URL = "postgres://usuario:contraseña@host:puerto/nombre_de_base_de_datos" }
 
 [env]
   PORT = "8000"
+
+
+[[config.env]]
+  name = "GOOGLE_APPLICATION_CREDENTIALS"
+  value = "/credencials/credencial.json"
 
 [http_service]
   internal_port = 8000
@@ -23,3 +29,4 @@ console_command = "/code/manage.py shell"
 [[statics]]
   guest_path = "/code/static"
   url_prefix = "/static/"
+

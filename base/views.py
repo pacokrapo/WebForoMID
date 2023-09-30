@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic, Message, User
 from .forms import RoomForm, UserForm, MyUserCreationForm
+from django.contrib.auth import get_user_model
+from .backend import MyUserBackend
 
 # Create your views here.
 
@@ -16,6 +18,7 @@ from .forms import RoomForm, UserForm, MyUserCreationForm
 # ]
 
 
+#@requires_csrf_token
 def loginPage(request):
     page = 'login'
     if request.user.is_authenticated:
@@ -30,10 +33,11 @@ def loginPage(request):
         except:
             messages.error(request, 'User does not exist')
 
-        user = authenticate(request, email=email, password=password)
+        #user = authenticate(request, email=email, password=password)
+        user = MyUserBackend().authenticate(request, username=email, password=password)
 
         if user is not None:
-            login(request, user)
+            login(request, user, backend='base.backend.MyUserBackend')
             return redirect('home')
         else:
             messages.error(request, 'Username OR password does not exit')
@@ -47,6 +51,7 @@ def logoutUser(request):
     return redirect('home')
 
 
+#@requires_csrf_token
 def registerPage(request):
     form = MyUserCreationForm()
 
@@ -55,11 +60,15 @@ def registerPage(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
+            #user.set_password(request.POST['password1'])
             user.save()
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'An error occurred during registration')
+            #messages.error(request, 'An error occurred during registration')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error en el campo {field}: {error}")
 
     return render(request, 'base/login_register.html', {'form': form})
 
@@ -104,6 +113,8 @@ def room(request, pk):
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
+    #user = User.objects.get(email=request.user.email)
+    #user = request.user
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
     topics = Topic.objects.all()
