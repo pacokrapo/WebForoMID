@@ -1,7 +1,7 @@
 # web-foromid-repo
 Foro para compartir propuestas del MID
 
-Este proyecto usa la misma estructura de código que el de StudyBud.
+Este proyecto parte de la misma estructura de código que StudyBud.
 
 Referencia:
 
